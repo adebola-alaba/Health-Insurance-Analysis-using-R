@@ -1,0 +1,502 @@
+---
+title: "Insurance-Analysis-using-R"
+author: "https://github.com/siraug"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Check Work Directory, echo=FALSE, results=FALSE}
+getwd()
+
+```
+
+# **Library Import**
+
+```{r Import Libraries, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(ggplot2) #EDA plot
+library(ggpubr) #ggplot customization
+library(corrplot) #Correlation Matrix Plot
+library(dplyr) #Data manipulation
+library(tidyverse) #Data Interaction
+library(rmarkdown) #Knitting report to Word/pdf
+library(e1071) #Skewness Check
+```
+
+# **Dataset Import**
+
+```{r Import Dataset, warning=FALSE}
+Insurance <- read.csv("insurance.csv")
+head(Insurance)
+sprintf("Dataset size: [%s]", toString(dim(Insurance)))
+```
+
+The insurance data set has 1338 observations of 7 variables. There is no need to exclude columns as all variables will be used for hypothesis testing.\
+
+# **Check for Null values**
+
+```{r Check for Null Values, warning=FALSE}
+is.null(Insurance)
+
+```
+
+There is no null value in all 7 variables.\
+
+
+# **Exploratory Data Analysis**
+
+
+```{r Regional Distribution}
+ggplot(Insurance, aes(x = region)) + 
+  geom_bar(fill = "green",
+          color = "black") +
+  labs(x = "Region",
+       y = "Frequency",
+       title = "Count by Region")
+
+
+```
+
+There are more people from the southeast region
+
+
+```{r Region by Charges}
+
+regionbycharges <- ggplot(Insurance, aes(x = region, y = charges, fill = sex)) + 
+  geom_bar(data = subset(Insurance, sex == "female"), stat = "identity") + 
+  geom_bar(data = subset(Insurance, sex == "male"), stat = "identity") +
+  coord_flip()
+
+regionbycharges
+
+```
+
+The charges from southeast are more. Interestingly, the only group of women are from the northwest region
+
+
+
+
+```{r Age Distribution}
+ggplot(Insurance, aes(x = age)) + 
+  geom_density(aes(y = ..count..), fill = "yellow") +
+  geom_vline(aes(xintercept = mean(age)), 
+             linetype = "dashed", linewidth = 0.6,
+             color = "#FC4E07")
+```
+
+There are more peole between age 20 - 25
+
+
+
+
+# **Test for Normality on BMI & Charges Variables**
+
+The goal is to check if the BMI & Charges Variable is normally distributed or not. This will determine the Statistical technique to apply on the dataset (i.e. parametric (if the data is normally distributed) or non-parametric (if the data follows a distribution that is not normal))\
+
+# **Skewness Check for BMI**
+
+```{r Skewness Check for BMI, warning=FALSE}
+ggplot(Insurance, aes(x=bmi)) + 
+    geom_density(alpha=.3, fill="blue", color="blue", size=1)+
+    geom_vline(aes(xintercept=mean(bmi)), size=1, color ="black")+
+    ggtitle("Distribution density of BMI") +
+    theme(text = element_text(size = 15))
+    
+sprintf("Skewness: [%s]", toString(skewness(Insurance$bmi)))
+```
+
+We see that the BMI variable is fairly symmetrical. A perfectly symmetrical data set will have a skewness of 0. The normal distribution has a skewness of 0 (<https://www.spcforexcel.com/knowledge/basic-statistics/are-skewness-and-kurtosis-useful-statistics>). More tests will be performed to determine if parametric or non-parametric tests will be used.\
+
+# **Histogram and QQPlot Check for BMI Normality**
+
+```{r Histogram and QQPlot Check for BMI Normality, warning=FALSE}
+qqnorm(Insurance$bmi, main = "Normal QQPlot of BMI",)
+qqline(Insurance$bmi)
+
+hist(Insurance$bmi, main = "Histogram of BMI", prob = TRUE, ylim = c(0, 0.07))
+lines (density(Insurance$bmi))
+```
+
+Furthermore, it is seen that the BMI variable is fairly normally distributed. With the QQPlot, the points fall very close to the line and the bell curve in the histogram plot is close to the bell-curve shape for a normal distribution.\
+
+
+```{r BMI Boxplot Check}
+
+boxplot(Insurance$bmi,
+        ylab = "bmi",
+        main = "Boxplot of BMI",
+        col= "blue",
+        outcol="blue")
+```
+
+The bmi variable has outliers\
+
+
+
+
+## **Shapiro Wilk's Test for BMI Normality**
+
+**Research Question:** is the BMI variable normally distributed?
+
+**H0:** The BMI variable is normally distributed\
+**HA:** The BMI variable is not normally distributed\
+
+**Confidence Interval:** If the p-value is greater than 0.05, the null hypothesis will fail to be rejected and if it is lower than 0.05, the null hypothesis will be rejected.\
+
+```{r "Shapiro Wilk's Test for BMI Normality", warning=FALSE}
+shapiro.test(Insurance$bmi)
+```
+
+The p-value of the BMI variable is 0.00002605. Since this value is less than 0.05, there is sufficient evidence to reject the null hypothesis. The BMI variable is not normally distributed.\
+
+# **Skewness Check for Charges**
+
+```{r Skewness Check for Charges, warning=FALSE}
+
+ggplot(Insurance, aes(x=charges)) + 
+    geom_density(alpha=.3, fill="red", color="red", size=1)+
+    geom_vline(aes(xintercept=mean(charges)), size=1, color ="black")+
+    ggtitle("Distribution density of Charges") +
+    theme(text = element_text(size = 15))
+    
+sprintf("Skewness: [%s]", toString(skewness(Insurance$charges)))
+```
+
+With a skewness point of 1.51, the **Charges variable** is positively skewed.\
+
+The Distribution of the data can also be checked using Histogram and QQNorm\
+
+# **Histogram and QQPlot Check for charges Normality**
+
+```{r Histogram and QQPlot Check for charges Normality, warning=FALSE}
+
+qqnorm(Insurance$charges, main = "Normal QQPlot of Charges",)
+qqline(Insurance$charges)
+
+hist(Insurance$charges, main = "Histogram of Charges", prob = TRUE)
+lines (density(Insurance$charges))
+
+```
+
+Furthermore, it is seen that the charges variable is not normally distributed.\
+
+# **Boxplot Check for BMI & Charges**
+
+```{r Charges Boxplot Check, warning=FALSE}
+boxplot(Insurance$charges,
+        ylab = "charges",
+        main = "Boxplot of Insurance Charges",
+        col= "red",
+        outcol="red")
+
+```
+
+Charges has more outliers than BMI.\
+
+# **Shapiro Wilk's Test for Charges Normality**
+
+**Research Question:** is the BMI variable normally distributed?
+
+**H0:** The Charges variable is normally distributed\
+**HA:** The Charges variable is not normally distributed\
+
+**Confidence Interval:** If the p-value is greater than 0.05, the null hypothesis will fail to be rejected and if it is lower than 0.05, the null hypothesis will be rejected.\
+
+```{r "Shapiro Wilk's Test for Charges Normality", warning=FALSE}
+shapiro.test(Insurance$charges)
+```
+
+The p-value of the Charges distribution is 0.00000000000000022.This value is less than 0.05 and thus, there is sufficient evidence to reject the null hypothesis that the variable is normally distributed.\
+
+# **Normality Conclusion**
+
+**Since the BMI and Charges variables do not follow the normal distribution,Non-Parametric tests will used to statistically investigate the data.**
+
+# NON-PARAMETRIC TESTS
+
+## Two Sample Independent T-test: Hypothesis One
+
+**Research Question:** According to [NHS](https://www.nhs.uk/common-health-questions/lifestyle/what-is-the-body-mass-index-bmi/), the ideal bmi is within 18.5 and 24.9. Within this range, a person is considered to be healthy.People who smoke are said to have a lower bmi than those who do not smoke [Taylor et al.] (<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6452214/>). Does the dataset support the claim that the average BMI of smokers is less than the average of bmi of non-smoker?\
+
+**Hypothesis Formulation:**\
+**H0:** The median BMI of smokers is higher than that of non smokers\
+**HA:** The median BMI of smokers is not higher than that of non smokers\
+
+This test will be carried out with a **95% confidence interval**. If the p-value is greater than 0.05, the null hypothesis will fail to be rejected and if it is lower than 0.05, the null hypothesis will be rejected.\
+
+```{r Hypothesis One, warning=FALSE}
+
+smoker_bmi <- Insurance$bmi[Insurance$smoker == 'yes'] # extract bmi where smoker equals yes
+non_smoker_bmi <- Insurance$bmi[Insurance$smoker == 'no'] # extract bmi where smoker equals no
+
+
+wilcox.test(smoker_bmi,non_smoker_bmi, alternative = "less", conf.int = TRUE)
+
+#To Confirm what the exact values are:
+
+group_by(Insurance,smoker) %>%
+  summarise(
+            median = median(bmi, na.rm = TRUE),
+            mean = mean(bmi, na.rm = TRUE))
+
+```
+
+**Inference:** With a p-value of [0.5321]{.underline} which is greater than the significant level of 0.05, there is enough evidence for the null hypothesis to fail to be rejected. As seen, the median bmi of the smokers is slightly higher than that of the non-smokers. The non-smokers mean bmi isn't within the ideal range. Not too much of a surprise here as "not smoking" is not the only remedy to an having an healthy lifestyle. There are other factors such as healthy eating, exercise etc.
+
+## Two Sample Independent T-test: Hypothesis Two
+
+**Research Question:** Are the insurance claims of smokers and non-smokers similar?
+
+**Hypothesis Formulation:**\
+**HO:** The insurance claims of smokers and non-smokers are similar\
+**HA:** The insurance claims of smokers and non-smokers are not similar\
+
+This test will be carried out with a **95% confidence interval**. If the p-value is greater than 0.05, the null hypothesis will fail to be rejected and if it is lower than 0.05, the null hypothesis will be rejected.\
+
+```{r Hypothesis Two, warning=FALSE}
+charges_smoking <- Insurance$charges[Insurance$smoker == 'yes'] # extract charges where smoker equals yes
+charges_no_smoking <- Insurance$charges[Insurance$smoker == 'no'] # extract charges where smoker equals no
+
+wilcox.test(charges_smoking,charges_no_smoking, conf.int = TRUE)
+```
+
+**Inference:** The p-value is below 0.05. Therefore, there is no sufficient evidence to fail to reject the claim that the charges of those who smoke, and non-smokers are the same. The null hypothesis is hereby rejected as result shows that the claims are indeed different.\
+
+## Two Sample Independent T-test: Hypothesis Three
+
+**Research Question:** Is there any difference in the median bmi of both gender?\
+
+**Hypothesis Formulation:**\
+**H0:** The median bmi of male and female are similar\
+**HA:** The median bmi of male and female differ\
+
+This test will be carried out with a **95% confidence interval**. If the p-value is greater than 0.05, the null hypothesis will fail to be rejected and if it is lower than 0.05, the null hypothesis will be rejected.\.
+
+```{r Hypothesis Three, warning=FALSE}
+bmi_male <- Insurance$bmi[Insurance$sex == 'male'] 
+bmi_female <- Insurance$bmi[Insurance$sex == 'female']
+
+wilcox.test(bmi_male, bmi_female, conf.int = TRUE)
+
+#To Confirm what the exact values are: 
+
+group_by(Insurance,sex) %>%
+  summarise(median = median(bmi, na.rm = TRUE))
+
+```
+
+**Inference:** The result shows that the median bmi of both gender are similar and as such, the null hypothesis fails to be rejected as the p-value of the test is [0.1014]{.underline} which is greater than the significance level of 0.05.\
+
+## Pearson Chi-Squared Test
+
+**Research Question:** Are smoking and region dependent? Does region influence the habit of smoking or not?
+
+**Hypothesis Formulation:**\
+**H0:** Region and smoking status are independent\
+**HA:** Region and smoking status are dependent\
+
+This test will be carried out with a **95% confidence interval**. If the p-value is greater than 0.05, the null hypothesis will fail to be rejected and if it is lower than 0.05, the null hypothesis will be rejected.\
+
+```{r Chi Squared Test: Table and Plot, warning=FALSE}
+
+#Create a Contingency table of the variables Region and Smoker Status
+
+region_smoker <- table(Insurance$region, Insurance$smoker)
+
+region_smoker
+```
+
+```{r Chi Squared Test, warning=FALSE}
+chisq_reg_smk <- chisq.test(region_smoker)
+
+chisq_reg_smk
+```
+
+**Inference:** The chi-squared test shows that region and smoker are independent as the p-value is greater than the significance level of 0.05 thus the null hypothesis fails to be rejected.
+
+```{r barplot of Region and Smoker status, warning=FALSE}
+#barplot of Region and Smoker status
+
+ggplot(Insurance) +
+  aes(x = region, fill = smoker) +
+  geom_bar()
+```
+
+## Pearson Chi-Squared Test - Observed Values
+
+```{r Chi Squared Test - Observed Values, warning=FALSE}
+
+chisq_reg_smk$observed
+```
+
+## Pearson Chi-Squared Test - Expected Values
+
+```{r Chi Squared Test - Expected Values, warning=FALSE}
+chisq_reg_smk$expected
+```
+
+## Pearson Chi-Squared Test - Residual Values
+
+```{r Chi Squared Test - Residual Values, warning=FALSE}
+round(chisq_reg_smk$residuals,4)
+```
+
+## Pearson Chi-Squared Test - Residual Plot
+
+```{r Residual Plot, warning=FALSE}
+corrplot(chisq_reg_smk$residuals, is.cor = FALSE)
+```
+
+## Kruskal-Wallis Test (Non-parametric equivalent to ANOVA)
+
+**Research Question:** Do the regions differ from each other in terms of central tendency?
+
+**Hypothesis Formulation:**\
+**H0:** There is no significant difference in charges between the regions\
+**HA:** There is a significant difference in charges between the regions\
+
+This test will be carried out with a **95% confidence interval**. If the p-value is greater than 0.05, the null hypothesis will fail to be rejected and if it is lower than 0.05, the null hypothesis will be rejected.\
+
+```{r Kruskal-wallis Test, warning=FALSE}
+kruskal.test (charges ~ region, data = Insurance)
+
+```
+
+**Inference:** This shows that the regions have a similar central tendency as the p-value from the test is greater than the significance level 0.05. 
+
+## Correlation Test
+
+**Research Question:** Are any of the variables correlated?\
+
+### Result Interpretation:
+
+-   Strong negative correlation (-1) means that whenever x rises, y falls.\
+-   0 indicates no correlation exists between the two variables (x and y).\
+-   A strong positive correlation of 1 means that y rises as x does.\
+
+Age, BMI, Children and Charges are all numerical while sex, smoker and region are categorical.\
+
+For this test, all categorical will be changed to numerical.
+
+**For sex:**\
+- male becomes 1\
+- female becomes 2\
+
+**For smoker:**\
+- no becomes 0\
+- yes becomes 1\
+
+**For region:**\
+- southeast becomes 1\
+- southwest becomes 2\
+- northeast becomes 3\
+- northwest becomes 4\
+
+```{r Correlation, warning=FALSE}
+## Make a copy of the data
+insurance_copy = Insurance
+head(insurance_copy)
+
+## Replacing values for sex
+insurance_copy['sex'][insurance_copy['sex'] == 'male'] <- 1
+insurance_copy['sex'][insurance_copy['sex'] == 'female'] <- 2
+
+## Replacing values for smoker
+insurance_copy['smoker'][insurance_copy['smoker'] == 'no'] <- 0
+insurance_copy['smoker'][insurance_copy['smoker'] == 'yes'] <- 1
+
+## Replacing values for region
+insurance_copy['region'][insurance_copy['region'] == 'southeast'] <- 1
+insurance_copy['region'][insurance_copy['region'] == 'southwest'] <- 2
+insurance_copy['region'][insurance_copy['region'] == 'northeast'] <- 3
+insurance_copy['region'][insurance_copy['region'] == 'northwest'] <- 4
+
+## Print Changes
+head(insurance_copy)
+
+# check the datatype of the variables
+class(insurance_copy$age)
+class(insurance_copy$sex)
+class(insurance_copy$bmi)
+class(insurance_copy$children)
+class(insurance_copy$smoker)
+class(insurance_copy$region)
+class(insurance_copy$charges)
+```
+
+\
+
+```{r Correlation Data, warning=FALSE}
+## Converting variables to lists
+age <- c(insurance_copy$age)
+sex <- as.integer(c(insurance_copy$sex))
+bmi <- c(insurance_copy$bmi)
+children <- c(insurance_copy$children)
+smoker <- as.integer(c(insurance_copy$smoker))
+region <- as.integer(c(insurance_copy$region))
+charges <- as.integer(c(insurance_copy$charges))
+
+## binding the variables
+insurance_cor <- cbind(age,sex,bmi,children,smoker,region,charges)
+
+head(insurance_cor)
+```
+
+## Correlation Matrix
+
+```{r Correlation Matrix, warning=FALSE}
+insurance_cor_result <- round (cor(insurance_cor, method = 'spearman'),3)
+insurance_cor_result
+```
+
+## Correlation Plot
+
+```{r Correlation Plot, warning=FALSE}
+corrplot(insurance_cor_result, method = 'number')
+```
+
+The results show that some variables are positively correlated.\
+* **Smoker and Charges** variables have a correlation coefficient of 0.66. This indicates a strong positive correlation. It is no surprise because the insurance claims of smokers are expected to be higher due to their health conditions.\
+* **Age and Charges** also have a strong correlation with a correlation coefficient of 0.53. This supports the fact that as people grow older, they tend to need more medical attention. Hence the increase in charges as we grow older.\
+
+## Multiple Linear Regression
+
+The investigation of the relationship between the response (dependent) and predictor (independent) variable is known as linear regression. The response (y) is mathematically modelled as a function of the predictor (x). The coefficients are represented as "a" and "b"
+
+Below are the variables for the linear model:\
+\* **Predictors: Age and Smoker**\
+\* **Response: Charges**\
+
+**Research Question:** is there any influence on charges when age and smoker are predictor variables?
+
+**Hypothesis Formulation:**\
+**H0:** There is no relationship between the predictors and response variables\
+**HA:** There is a relationship between the predictors and response variables\
+
+```{r Multiple Regression, warning=FALSE}
+model <- lm(charges ~ smoker+age, data = Insurance)
+summary(model)
+
+### Confidence Interval of the Model Coefficient
+confint(model)
+```
+
+**Inference:** The statistical summary indicates that smoking status and charges are related. Examining the F-statistic, it has a p-value of 2.2e-16, this implies that at least one of the predictors is related to the response variable. The coefficients show that as the people grow older maintaining their smoking habit, it influences the health charges claimed. The R-squared (multiple and adjusted) are within a good range at 0.72. This suggests that the model is a good fit and can possibly explain 72% of the total variability.
+
+### Multiple Linear Regression: Model Prediction
+
+**Research Question:** What will be the health insurance charge of a 35-year-old smoker?
+
+
+```{r Multiple Linear Regression: Model Prediction, warning=FALSE}
+
+new <- data.frame(age=c(35), smoker=c('yes'))
+
+predict(model, newdata=new)
+
+```
+
+Mathematically, multiple regression is represented as y = a +($$b_1$$)($$x_1$$) +......+ ($$b_n$$)($$x_n$$).In this model, this means the charges for a 35-year-old smoker will be calculated as **Charges =** **(-2391.63) + (23855.30) +** **(274.87*35)** **= $31,084**. This is the same result as shown above. The model accurately predicted the charges for a 35 year-old smoker.
