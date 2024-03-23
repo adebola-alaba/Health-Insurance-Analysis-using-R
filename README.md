@@ -16,16 +16,18 @@ The dataset used is an insurance dataset with 1338 observations that originated 
 All tests will be carried out with a 95% confidence interval. This means if the p-value is below 0.05, the null hypothesis will be rejected and if it is above 0.05, then there is sufficient evidence not to reject the null hypothesis (i.e., it will fail to be rejected).
 
 ### <ins>Test for Normality</ins>
-To be sure of the statistical test to be carried out, there is a need to carry out a test for normality. Primarily, the “BMI” and “Charges” dataset will be used for the statistical tests. For the normality test, the skewness test, boxplot, density distribution and Shapiro Wilk’s test will be used. 
+To be sure of the statistical test to be carried out, there is a need to carry out a test for normality. Primarily, the “BMI” and “Charges” dataset will be used for the statistical tests. For the normality test, the skewness test, boxplot, density distribution and Shapiro Wilk’s test was used. 
+
 #### <ins>Normality Test for BMI Variable</ins>
-#### Research Question: is the BMI variable normally distributed?
+
+#### 1. Research Question: is the BMI variable normally distributed?
 - Ho: The BMI variable is normally distributed
 - Ha: The BMI variable is not normally distributed
 
 **Inference:** The skewness of BMI is [0.283410550996969]. The p-value of the BMI variable is 0.00002605. Since this value is less than 0.05, there is sufficient evidence to reject the null hypothesis. The BMI variable is not normally distributed.
 
 #### <ins>Normality Test for Charges Variable</ins>
-#### Research Question: is the Charges variable normally distributed?
+#### 2. Research Question: is the Charges variable normally distributed?
 - Ho: The Charges variable is normally distributed
 - Ha: The Charges variable is not normally distributed
 
@@ -37,7 +39,7 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 ### Non-Parametric Tests:
 #### <ins>Two Sample Independent T-test:</ins>
 
-**Research Question:** According to (NHS, 2022), the ideal BMI is between 18.5 and 24.9. Within this range, a person is healthy. People who smoke are said to have a lower BMI than those who do not smoke (Taylor, et al., 2019). ***Does the dataset support the claim that the average BMI of smokers is less than the average BMI of non-smokers?***
+**3. Research Question:** According to (NHS, 2022), the ideal BMI is between 18.5 and 24.9. Within this range, a person is healthy. People who smoke are said to have a lower BMI than those who do not smoke (Taylor, et al., 2019). ***Does the dataset support the claim that the average BMI of smokers is less than the average BMI of non-smokers?***
 - Ho: The median BMI of smokers is higher than that of non-smokers
 - Ha: The median BMI of smokers is not higher than that of non-smokers
 
@@ -46,7 +48,7 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
 
 
-**Research Question:** Are the insurance claims of smokers and non-smokers similar?
+**4. Research Question:** Are the insurance claims of smokers and non-smokers similar?
 - Ho: The insurance claims of smokers and non-smokers are similar
 - Ha: The insurance claims of smokers and non-smokers are not similar
 
