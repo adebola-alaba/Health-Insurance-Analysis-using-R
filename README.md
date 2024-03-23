@@ -77,3 +77,13 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 - Ha: There is a significant difference in charges between the regions
  
 **Inference:** This shows that the regions have a similar central tendency as the p-value > 0.05.
+
+
+
+<ins>Correlation Test</ins>
+**7.	Research Question: Are any of the variables correlated?**
+ 
+
+Inference: The results show that some variables are positively correlated:
+-	 Smoker and Charges variables have a correlation coefficient of 0.66. This indicates a strong positive correlation. It is no surprise because the insurance claims of smokers are expected to be higher due to the resulting health conditions from smoker such as damaged lungs, dental conditions etc. 
+-	Age and Charges have a correlation coefficient of 0.53. This supports the fact that as people grow older, they tend to need more medical attention. Hence the increase in charges as we grow older.
