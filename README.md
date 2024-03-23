@@ -43,3 +43,14 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
 
 **Inference:** With a p-value of 0.5321 which is greater than the significant level of 0.05, ***there is enough evidence for the null hypothesis to fail to be rejected. As seen, the median BMI of smokers is slightly higher than that of non-smokers.*** The non-smoker's mean BMI isn't within the ideal range. Not too much of a surprise here as "not smoking" is not the only remedy to having a healthy lifestyle. There are other factors such as healthy eating, exercise etc.
+
+
+
+**Research Question:** Are the insurance claims of smokers and non-smokers similar?
+- Ho: The insurance claims of smokers and non-smokers are similar
+- Ha: The insurance claims of smokers and non-smokers are not similar
+
+ 
+
+**Inference:** The p-value is below 0.05. Therefore, ***there is no sufficient evidence to fail to reject the claim that the charges of those who smoke, and non-smokers are the same.*** The null hypothesis is hereby rejected as result shows that the claims are indeed different
+
