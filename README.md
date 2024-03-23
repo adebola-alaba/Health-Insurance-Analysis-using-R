@@ -21,7 +21,7 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 #### Research Question: is the BMI variable normally distributed?
 - Ho: The BMI variable is normally distributed
 - Ha: The BMI variable is not normally distributed
-  
+
 **Inference:** The skewness of BMI is [0.283410550996969]. The p-value of the BMI variable is 0.00002605. Since this value is less than 0.05, there is sufficient evidence to reject the null hypothesis. The BMI variable is not normally distributed.
 
 #### <ins>Normality Test for Charges Variable</ins>
