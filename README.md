@@ -48,7 +48,7 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
 
 
-**4. Research Question:** Are the insurance claims of smokers and non-smokers similar?
+**4. Research Question: Are the insurance claims of smokers and non-smokers similar?**
 - Ho: The insurance claims of smokers and non-smokers are similar
 - Ha: The insurance claims of smokers and non-smokers are not similar
 
@@ -56,3 +56,23 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
 **Inference:** The p-value is below 0.05. Therefore, ***there is no sufficient evidence to fail to reject the claim that the charges of those who smoke, and non-smokers are the same.*** The null hypothesis is hereby rejected as result shows that the claims are indeed different
 
+
+
+####<ins>Pearson Chi-Squared Test</ins>
+
+**5.	Research Question: Are smoking and region dependent? Does region influence the habit of smoking or not?**
+
+- Ho: Region and smoking status are independent
+- Ha: Region and smoking status are dependent
+ 
+**Inference:** The chi-squared test shows that region and smoker are independent as the p-value > 0.05 thus the null hypothesis fails to be rejected.
+
+
+####<ins>Kruskal-Wallis Test</ins>
+
+**6.	Research Question: Do the regions differ from each other in terms of central tendency?**
+
+- Ho: There is no significant difference in charges between the regions
+- Ha: There is a significant difference in charges between the regions
+ 
+**Inference:** This shows that the regions have a similar central tendency as the p-value > 0.05.
