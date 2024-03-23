@@ -80,7 +80,8 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
 
 
-<ins>Correlation Test</ins>
+### <ins>Correlation Test</ins>
+
 **7.	Research Question: Are any of the variables correlated?**
  
 
