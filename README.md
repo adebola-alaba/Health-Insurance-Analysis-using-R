@@ -36,7 +36,8 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 **Normality Conclusion:** Since the BMI and Charges variables do not follow the normal distribution, ***NON-PARAMETRIC TESTS*** will be used to statistically investigate the data.
 
 
-### Non-Parametric Tests:
+### <ins>Non-Parametric Tests:</ins>
+
 #### <ins>Two Sample Independent T-test:</ins>
 
 **3. Research Question:** According to (NHS, 2022), the ideal BMI is between 18.5 and 24.9. Within this range, a person is healthy. People who smoke are said to have a lower BMI than those who do not smoke (Taylor, et al., 2019). ***Does the dataset support the claim that the average BMI of smokers is less than the average BMI of non-smokers?***
