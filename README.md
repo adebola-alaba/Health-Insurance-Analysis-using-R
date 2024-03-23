@@ -58,7 +58,7 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
 
 
-####<ins>Pearson Chi-Squared Test</ins>
+### <ins>Pearson Chi-Squared Test</ins>
 
 **5.	Research Question: Are smoking and region dependent? Does region influence the habit of smoking or not?**
 
@@ -68,7 +68,7 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 **Inference:** The chi-squared test shows that region and smoker are independent as the p-value > 0.05 thus the null hypothesis fails to be rejected.
 
 
-####<ins>Kruskal-Wallis Test</ins>
+### <ins>Kruskal-Wallis Test</ins>
 
 **6.	Research Question: Do the regions differ from each other in terms of central tendency?**
 
