@@ -84,10 +84,22 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
 **7.	Research Question: Are any of the variables correlated?**
 
-![image](https://github.com/siraug/Health-Insurance-Analysis-using-R/assets/122705182/a5678de3-098e-43f4-9236-0d3959008b14)
+ <p align="center">
+<img src="https://github.com/siraug/Health-Insurance-Analysis-using-R/assets/122705182/a5678de3-098e-43f4-9236-0d3959008b14" alt="Correlation Plot">
+</p>
 
- 
 
 Inference: The results show that some variables are positively correlated:
--	 Smoker and Charges variables have a correlation coefficient of 0.66. This indicates a strong positive correlation. It is no surprise because the insurance claims of smokers are expected to be higher due to the resulting health conditions from smoker such as damaged lungs, dental conditions etc. 
+-	 Smoker and Charges variables have a correlation coefficient of 0.66. This indicates a strong positive correlation. It is no surprise because the insurance claims of smokers are expected to be higher due to the resulting health conditions from smokers such as damaged lungs, dental conditions etc. 
 -	Age and Charges have a correlation coefficient of 0.53. This supports the fact that as people grow older, they tend to need more medical attention. Hence the increase in charges as we grow older.
+
+### <ins>Multiple Linear Regression</ins>
+**8.	Research Question: is there any influence on charges when age and smoker are predictor variables?**
+- Ho: There is no relationship between the predictors and response variables
+- Ha: There is a relationship between the predictors and response variables
+
+ <p align="center">
+<img src="https://github.com/siraug/Health-Insurance-Analysis-using-R/assets/122705182/4f976ece-83ea-4560-9f02-d75815ab56f2">
+</p>
+
+
