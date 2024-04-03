@@ -55,7 +55,7 @@ To be sure of the statistical test to be carried out, there is a need to carry o
 
  
 
-**Inference:** The p-value is below 0.05. Therefore, ***there is no sufficient evidence to fail to reject the claim that the charges of those who smoke, and non-smokers are the same.*** The null hypothesis is hereby rejected as result shows that the claims are indeed different
+**Inference:** The p-value is below 0.05. Therefore, ***there is no sufficient evidence to fail to reject the claim that the charges of those who smoke, and non-smokers are the same.*** The null hypothesis is hereby rejected as the result shows that the claims are indeed different
 
 
 
