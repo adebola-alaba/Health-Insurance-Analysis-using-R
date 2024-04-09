@@ -6,7 +6,7 @@ The dataset used is an insurance dataset with 1338 observations that originated 
 - Age: The primary beneficiary's age (excluding those above 64 years, since the government generally covers them).
 - Sex: This gender of the policyholder, either male or female.
 - BMI: measures how overweight or underweight a person is to their height. Weight in kilogrammes divided by height in metres squared gives you your BMI.
-- Children: The number of dependents covered by the insurance policy.
+- Children: The number of dependents covered by the insurance policy. 
 - Smoker: - This represents how frequently the insured smokes; this answer can be either yes or no.
 - Region: This refers to the beneficiary's residence in one of the four geographic regions of the United States: northeast, southeast, southwest, or northwest.
 - Charges: Individual health insurance claims for medical expenses.
