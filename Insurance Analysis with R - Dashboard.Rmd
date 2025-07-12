@@ -37,7 +37,7 @@ Sidebar {.sidebar}
 
 ### **Description**
 
-This summary captures the application of statistical techniques on a dataset for accurate insights and inferences. The statistical technique used are Normality tests, non-parametric test, correlation.The  code for this dashboard is on [Github](https://github.com/adebola-alaba/Derbyshire-Crime-Analysis-With-R).
+This summary captures the application of statistical techniques on a dataset for accurate insights and inferences. The statistical technique used are Normality tests, non-parametric test, correlation.The  code for this dashboard is on [Github](https://github.com/adebola-alaba/Health-Insurance-Analysis-using-R).
 
 Author: [Adebola Alaba](https://mavenanalytics.io/profile/siraug)
 
